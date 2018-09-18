@@ -41,7 +41,7 @@ class Main:
             self.__config_app = sys.argv[1]
             self.__config_logger = sys.argv[2]
         if os.path.isfile(self.__config_app) and os.path.isfile(self.__config_logger):
-            #logging.config.fileConfig(self.__config_logger)
+            # logging.config.fileConfig(self.__config_logger)
             self.__logger = logging.getLogger("main")
             self.__settings = Settings(self.__config_app)
             self._path = "{}/../Charts/data/*.json".format(os.path.dirname(os.path.abspath(__file__)))
@@ -82,10 +82,8 @@ class Main:
             sim_results, final_rules = self.__command_controller.run_simulation()
             self.report_generator.collection_of_iterations.append(sim_results)
             self.report_generator.collection_of_final_rules.append(final_rules)
-        visualization_enable = self.settings.get_value("general", "visualization_enable")
-        if visualization_enable == "True":
-            self.report_generator.create_graphs()
-            self.archive_old_data()
+        self.report_generator.create_graphs()
+        self.archive_old_data()
 
     def test(self, type, dataset):
         self.set_settings_for_test(type, dataset)
@@ -95,7 +93,7 @@ class Main:
         data = self.json_data
         dataset = data[dataset]
         random_rules = "$->BA;C->BA;C->BB;B->C$;$->AA;$->BB;D->AB;A->$C;B->AA;B->$A"
-        self.settings.set_value("general", "initialization_rules", dataset[0]+";"+random_rules)
+        self.settings.set_value("general", "initialization_rules", dataset[0] + ";" + random_rules)
         self.settings.set_value("general", "train_set_path", dataset[1])
         self.settings.set_value("general", "test_set_path", dataset[1])
 
